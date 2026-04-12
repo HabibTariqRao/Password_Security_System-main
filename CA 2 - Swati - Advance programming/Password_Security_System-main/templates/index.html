@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Password Security System</title>
+
+    <!-- Link to external CSS file -->
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+
+<body>
+
+<!-- Logout Button (Session termination) -->
+<div style="text-align: right;">
+    <form action="/logout" method="GET">
+        <button type="submit" style="background:red;color:white;padding:8px 12px;border:none;cursor:pointer;">
+            Logout
+        </button>
+    </form>
+</div>
+
+<h2>Password Security & Breach Detection System</h2>
+
+<!-- Password input form -->
+<form method="POST">
+    <input type="password" name="password" placeholder="Enter password">
+    <button type="submit">Check Password</button>
+</form>
+
+<!-- Password generator form -->
+<form method="POST">
+    <button name="generate">Generate Secure Password</button>
+</form>
+
+<!-- View logs button -->
+<a href="/logs">
+    <button type="button">
+        View Logs
+    </button>
+</a>
+
+<!-- Generated password display -->
+{% if generated %}
+    <h3>Generated Password: {{generated}}</h3>
+{% endif %}
+
+<!-- Password reuse warning -->
+{% if reuse_warning %}
+    <p style="color: red; font-weight: bold;">
+        {{ reuse_warning }}
+    </p>
+{% endif %}
+
+<!-- Password analysis results -->
+{% if result %}
+
+<h3>Password Strength: {{result.strength}}</h3>
+
+<!-- Strength meter -->
+<div class="progress">
+
+    {% if result.strength == "Weak" %}
+        <div class="bar" style="width:25%; background:red;"></div>
+
+    {% elif result.strength == "Moderate" %}
+        <div class="bar" style="width:50%; background:orange;"></div>
+
+    {% elif result.strength == "Strong" %}
+        <div class="bar" style="width:75%; background:blue;"></div>
+
+    {% else %}
+        <div class="bar" style="width:100%; background:green;"></div>
+    {% endif %}
+
+</div>
+
+<!-- Entropy display -->
+<h4>Entropy: {{result.entropy}} bits</h4>
+
+<!-- Password improvement suggestions -->
+{% if result.feedback %}
+<h4>Recommendations</h4>
+<ul>
+    {% for item in result.feedback %}
+        <li>{{item}}</li>
+    {% endfor %}
+</ul>
+{% endif %}
+
+<!-- ⚠ Pattern detection warnings -->
+{% if result.patterns %}
+<h4>Pattern Warnings</h4>
+<ul>
+    {% for p in result.patterns %}
+        <li>{{p}}</li>
+    {% endfor %}
+</ul>
+{% endif %}
+
+<!-- Breach check result -->
+{% if result.breached %}
+    <p style="color:red">
+        Password found in breaches {{result.count}} times
+    </p>
+{% else %}
+    <p style="color:green">
+        Password not found in breach database
+    </p>
+{% endif %}
+
+{% endif %}
+
+</body>
+</html>

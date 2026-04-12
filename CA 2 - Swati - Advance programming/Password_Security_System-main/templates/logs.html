@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+
+<body>
+
+<!-- Security Logs Dashboard -->
+<h2>Security Logs</h2>
+
+<!-- Logs table showing user activity -->
+<table border="1">
+
+    <!-- Table headers -->
+    <tr>
+        <th>User</th>
+        <th>Strength</th>
+        <th>Breached</th>
+        <th>Time</th>
+    </tr>
+
+    <!-- Loop through logs data -->
+    {% for log in logs %}
+    <tr>
+        <td>{{log[1]}}</td> <!-- Username -->
+        <td>{{log[2]}}</td> <!-- Password strength -->
+        <td>{{log[3]}}</td> <!-- Breach status -->
+        <td>{{log[4]}}</td> <!-- Timestamp -->
+    </tr>
+    {% endfor %}
+
+</table>
+
+</body>
+</html>
